@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% set messages = get_flashed_messages() %}
+
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+<script src="{{ url_for('static', filename='js/temporary.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to the Computer Science Learning Center</h1>
+
+    {% if messages %}
+    <hr class="temporary">
+    <div class="row flashes temporary">
+        {% for message in messages %}
+        <p class="alert col-xs-12 {{ 'alert-success' if message.startswith('&#10004;') else 'alert-danger' if message.startswith('&#10006;') else 'alert-info' }}">{{ message|safe }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <hr>
+    <div class="row">
+        <a type="button" id="open-ticket" class="btn btn-lg btn-default col-xs-12 col-sm-6" href="{{ url_for('open_ticket') }}">Open Ticket</a>
+        <a type="button" id="view-tickets" class="btn btn-lg btn-default col-xs-12 col-sm-6" href="{{ url_for('view_tickets') }}">View Tickets</a>
+    </div>
+</div>
+{% endblock %}

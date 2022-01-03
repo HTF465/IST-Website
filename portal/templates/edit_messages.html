@@ -1,0 +1,11 @@
+{% extends "edit.html" %}
+
+{% set title = 'Edit Message' %}
+{% set formurl = url_for('save_edit_admin', type=type) %}
+
+{% block form %}
+<input type="hidden" id="id" name="id" value="{{ obj.id if obj else '' }}">
+{{ textarea('message', title='Message (Use Markdown syntax)', value=obj.message if obj else '', style='height: 24em !important;') }}
+{{ input('start_date', title='Start Date (Leave empty for indefinite display)', value=obj.start_date if obj else '', type='date', required=False) }}
+{{ input('end_date', title='End Date (Leave empty for indefinite display)', value=obj.end_date if obj else '', type='date', required=False) }}
+{% endblock %}

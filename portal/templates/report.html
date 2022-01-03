@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% set title = 'Reports' %}
+
+{% block meta %}
+<style>
+.question {
+    overflow: hidden;
+}
+
+.email {
+    word-wrap: break-word;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Tickets</h1>
+    <form class="well" action="" method="get">
+        <h2>Filters</h2>
+        <div class="form-group">
+            <label for="min_date">Start Date</label>
+            <input type="date" id="min_date" name="min_date" class="form-control" value="{{ request.args.get('min_date', '') }}">
+            <label for="max_date">End Date</label>
+            <input type="date" id="max_date" name="max_date" class="form-control" value="{{ request.args.get('max_date', '') }}">
+        </div>
+        <div class="form-group">
+            <label for="semester">Semester</label>
+            <select id="semester" name="semester" class="form-control">
+                <option value="">All</option>
+                {% for semester in semesters %}
+                <option value="{{ semester.id }}" {{ 'selected' if request.args.get('semester', '') == str(semester.id) }}>
+                    {{ semester }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="course">Course</label>
+            <select id="course" name="course" class="form-control">
+                <option value="">All</option>
+                {% for course in courses %}
+                <option value="{{ course.id }}" {{ 'selected' if request.args.get('course', '') == str(course.id) }}>
+                    {{ course }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="row">
+            <div class="btn-group-submit col-xs-4 col-sm-3 col-md-2">
+                <button type="submit" class="btn btn-primary btn-block">Filter</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="btn-group-submit col-xs-4 col-sm-3 col-md-2">
+            <a href="{{ url_for('report_download', **request.args) }}" class="btn btn-primary btn-block">Download Report</a>
+        </div>
+    </div>
+    <br>
+    <ul class="list-group">
+        <!--Paging tool-->
+        <li class="list-group-item row">
+            <nav aria-label="Report pages">
+                <ul class="pagination pagination-sm col-xs-10">
+                    {% if page > 1 %}
+                    <li aria-label="Previous">
+                        <a href="{{ url_for(request.endpoint, page=page-1, **args) }}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="disabled" aria-label="Previous">
+                        <a><span aria-hidden="true">&laquo;</span></a>
+                    </li>
+                    {% endif %}
+
+                    {% if page - 2 > 1 %}
+                    <li aria-label="First">
+                        <a href="{{ url_for(request.endpoint, page=0, **args) }}">...</a>
+                    </li>
+                    {% endif %}
+                    {% if page - 1 > 1 %}
+                    <li aria-label="Page">
+                        <a href="{{ url_for(request.endpoint, page=page-2, **args) }}">{{ page - 2 }}</a>
+                    </li>
+                    {% endif %}
+                    {% if page > 1 %}
+                    <li aria-label="Page">
+                        <a href="{{ url_for(request.endpoint, page=page-1, **args) }}">{{ page - 1 }}</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="active" aria-label="Page">
+                        <a>{{ page }}</a>
+                    </li>
+
+                    {% if page < maxPage %}
+                    <li aria-label="Page">
+                        <a href="{{ url_for(request.endpoint, page=page+1, **args) }}">{{ page + 1 }}</a>
+                    </li>
+                    {% endif %}
+                    {% if page + 1 < maxPage %}
+                    <li aria-label="Page">
+                        <a href="{{ url_for(request.endpoint, page=page+2, **args) }}">{{ page + 2 }}</a>
+                    </li>
+                    {% endif %}
+                    {% if page + 2 < maxPage %}
+                    <li aria-label="Last">
+                        <a href="{{ url_for(request.endpoint, page=maxPage, **args) }}">...</a>
+                    </li>
+                    {% endif %}
+
+                    {% if page < maxPage %}
+                    <li aria-label="Next">
+                        <a href="{{ url_for(request.endpoint, page=page+1, **args) }}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="disabled" aria-label="Next">
+                        <a><span aria-hidden="true">&raquo;</span></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <output class="badge">
+                Tickets: {{ offset + 1 }} - {{ offset + len(items) }} of {{ numItems }}
+            </output>
+        </li>
+        <!--end Paging tool-->
+        {% for ticket in items %}
+        <li class="list-group-item row">
+            <!--<div class="col-xs-10 col-sm-12 time"> correct_time(ticket.time_created).strftime('%x %I:%M:%S %p') </div>-->
+            <div class="col-xs-10 col-sm-12 time">{{ ticket.time_created }}</div>
+            <div class="col-xs-4 col-sm-4 col-md-3 email">{{ ticket.student_email }}</div>
+            <div class="col-xs-8 col-sm-3 col-md-2 course">{{ ticket.section.course.number }}</div>
+            <div class="col-xs-10 col-sm-3 col-md-3 assignment">{{ ticket.assignment }}</div>
+            <div class="col-xs-10 col-sm-10 col-md-10 question">{{ ticket.question }}</div>
+            <a type="button" class="badge" href="{{ url_for('ticket_details', id=ticket.id) }}">Details</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

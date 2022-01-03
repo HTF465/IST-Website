@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% set title = 'Administration Console' %}
+
+{% block meta %}
+<style>
+ul.nav-stacked {
+    text-align: center;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ title }}</h1>
+    <ul role="navigation" class="nav nav-pills nav-stacked">
+        <h2>Tutor Info</h2>
+        <li role="presentation"><a href="{{ url_for('list_tutors') }}">Tutors</a></li>
+        <h2>Messages</h2>
+        <li role="presentation"><a href="{{ url_for('list_admin', type=m.Messages) }}">Messages</a></li>
+        <h2>Student Problem Types</h2>
+        <li role="presentation"><a href="{{ url_for('list_admin', type=m.ProblemTypes) }}">Problem Types</a></li>
+        <h2>Courses and Sections</h2>
+        <li role="presentation"><a href="{{ url_for('list_admin', type=m.Semesters) }}">Semesters</a></li>
+        <li role="presentation"><a href="{{ url_for('list_admin', type=m.Professors) }}">Professors</a></li>
+        <li role="presentation"><a href="{{ url_for('list_admin', type=m.Courses) }}">Courses</a></li>
+        <li role="presentation"><a href="{{ url_for('list_admin', type=m.Sections) }}">Course Sections</a></li>
+    </ul>
+</div>
+{% endblock %}

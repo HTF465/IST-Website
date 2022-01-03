@@ -1,0 +1,11 @@
+{% extends "edit.html" %}
+
+{% set title = 'Edit Course' %}
+{% set formurl = url_for('save_edit_admin', type=type) %}
+
+{% block form %}
+<input type="hidden" id="id" name="id" value="{{ obj.id if obj else '' }}">
+{{ input('number', title='Course Number', value=obj.number if obj else '') }}
+{{ input('name', title='Course Name', value=obj.name if obj else '') }}
+{{ checkbox('on_display', title='Display on Status Screen', value=obj.on_display if obj else False) }}
+{% endblock %}

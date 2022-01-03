@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.0",
+    "popper.js": "^1.12.9",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-standalone": "^6.26.0"
+  },
+  "babel": {
+    "plugins": [
+      "transform-object-rest-spread"
+    ],
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "scripts": {
+    "build": "babel portal/static/jsx -d dicebot_web/static/babel --source-maps",
+    "test": "[ -d portal/static/babel/ ]"
+  }
+}

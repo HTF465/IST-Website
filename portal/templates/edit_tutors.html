@@ -1,0 +1,32 @@
+{% extends "edit.html" %}
+
+{% set title = 'Edit Tutor' %}
+{% set formurl = url_for('save_edit_tutors') %}
+
+{% block form %}
+
+{% if obj %}
+<h1>{{ obj.email }}</h1>
+<input type="hidden" id="id" name="id" value="{{ obj.id }}">
+{% endif %}
+
+{% if user.is_superuser %}
+{{ input('email', type='email', value=obj.email) }}
+{% endif %}
+
+{{ input('fname', title='First Name', value=obj.fname if obj else '') }}
+{{ input('lname', title='Last Name', value=obj.lname if obj else '') }}
+
+{% if user.is_superuser %}
+{{ checkbox('is_active', title='Is Active', value=obj.is_active if obj else False) }}
+{{ checkbox('is_superuser', title='Is Admin', value=obj.is_superuser if obj else False) }}
+{% endif %}
+
+{{ checkbox('is_working', title='Currently Working', value=obj.is_working if obj else False) }}
+
+<h2>Can Tutor</h2>
+{% for course in courses %}
+{{ checkbox(course.number, title=course, value=course in obj.courses if obj else False) }}
+{% endfor %}
+
+{% endblock %}

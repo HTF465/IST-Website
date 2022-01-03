@@ -1,0 +1,10 @@
+{% extends "edit.html" %}
+
+{% set title = 'Edit Professor' %}
+{% set formurl = url_for('save_edit_admin', type=type) %}
+
+{% block form %}
+<input type="hidden" id="id" name="id" value="{{ obj.id if obj else '' }}">
+{{ input('fname', title='First Name', value=obj.fname if obj else '') }}
+{{ input('lname', title='Last Name', value=obj.lname if obj else '') }}
+{% endblock %}

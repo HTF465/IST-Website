@@ -1,0 +1,9 @@
+{% extends "edit.html" %}
+
+{% set title = 'Edit Problem Type' %}
+{% set formurl = url_for('save_edit_admin', type=type) %}
+
+{% block form %}
+<input type="hidden" id="id" name="id" value="{{ obj.id if obj else '' }}">
+{{ input('description', value=obj.description if obj else '') }}
+{% endblock %}

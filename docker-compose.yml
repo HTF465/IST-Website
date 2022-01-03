@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  db:
+    image: microsoft/mssql-server-linux
+    ports:
+      - 1433:1433
+    env_file:
+      - .env
+
+  web:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/code
+    depends_on:
+      - db

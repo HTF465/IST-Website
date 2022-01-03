@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ title }}</h1>
+    <ul class="list-group">
+        <!--Paging tool-->
+        <li class="list-group-item row">
+            <nav aria-label="List pages">
+                <ul class="pagination pagination-sm col-xs-10">
+                    {% if page > 1 %}
+                    <li aria-label="Previous">
+                        <a href="{{ url_for(request.endpoint, type=type, page=page-1, **args) }}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="disabled" aria-label="Previous">
+                        <a><span aria-hidden="true">&laquo;</span></a>
+                    </li>
+                    {% endif %}
+
+                    {% if page - 2 > 1 %}
+                    <li aria-label="First">
+                        <a href="{{ url_for(request.endpoint, type=type, page=0, **args) }}">...</a>
+                    </li>
+                    {% endif %}
+                    {% if page - 1 > 1 %}
+                    <li aria-label="Page">
+                        <a href="{{ url_for(request.endpoint, type=type, page=page-2, **args) }}">{{ page - 2 }}</a>
+                    </li>
+                    {% endif %}
+                    {% if page > 1 %}
+                    <li aria-label="Page">
+                        <a href="{{ url_for(request.endpoint, type=type, page=page-1, **args) }}">{{ page - 1 }}</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="active" aria-label="Page">
+                        <a>{{ page }}</a>
+                    </li>
+
+                    {% if page < maxPage %}
+                    <li aria-label="Page">
+                        <a href="{{ url_for(request.endpoint, type=type, page=page+1, **args) }}">{{ page + 1 }}</a>
+                    </li>
+                    {% endif %}
+                    {% if page + 1 < maxPage %}
+                    <li aria-label="Page">
+                        <a href="{{ url_for(request.endpoint, type=type, page=page+2, **args) }}">{{ page + 2 }}</a>
+                    </li>
+                    {% endif %}
+                    {% if page + 2 < maxPage %}
+                    <li aria-label="Last">
+                        <a href="{{ url_for(request.endpoint, type=type, page=maxPage, **args) }}">...</a>
+                    </li>
+                    {% endif %}
+
+                    {% if page < maxPage %}
+                    <li aria-label="Next">
+                        <a href="{{ url_for(request.endpoint, type=type, page=page+1, **args) }}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="disabled" aria-label="Next">
+                        <a><span aria-hidden="true">&raquo;</span></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <output class="badge">
+                Items: {{ offset + 1 }} - {{ offset + len(items) }} of {{ numItems }}
+            </output>
+        </li>
+        <!--end Paging tool-->
+        <a type="button" class="list-group-item" href="{{ url_for('edit_admin', type=type) }}">+ New</a>
+        {% for item in items %}
+        <li class="list-group-item">
+            <span class="name">{{ item }}</span>
+            <a type="button" class="badge" href="{{ url_for('edit_admin', type=type, id=item.id) }}">Edit</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

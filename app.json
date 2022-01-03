@@ -1,0 +1,17 @@
+{
+    "name": "Tutoring Portal",
+    "description": "Tutoring Portal for the CSLC",
+    "image": "heroku/python",
+    "repository": "https://github.com/a-hodges/ist-tutoring",
+    "keywords": [
+        "CSLC",
+        "Computer Science Learning Center",
+        "IS&T",
+        "Information Science and Technology",
+        "Computer Science",
+        "Tutoring"
+    ],
+    "addons": [
+        "heroku-postgresql:hobby-dev"
+    ]
+}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% set title = 'Tickets' %}
+
+{% macro ticket(item) %}
+<!--<div class="col-xs-10 col-sm-12 time"> correct_time(item.time_created).strftime('%x %I:%M:%S %p') </div>-->
+<div class="col-xs-10 col-sm-12 time">{{ item.time_created }}</div>
+<div class="col-xs-4 col-sm-2 col-md-2 name">{{ item.student_fullname }}</div>
+<div class="col-xs-8 col-sm-4 col-md-3 course">{{ item.section.course }}</div>
+<div class="col-xs-10 col-sm-4 col-md-3 assignment">{{ item.assignment }}</div>
+<div class="col-xs-10 col-sm-10 col-md-10 question">{{ item.question }}</div>
+{% endmacro %}
+
+{% block content %}
+<div class="container">
+    <h1>Tickets</h1>
+
+    <h2>Open</h2>
+    <ul class="list-group">
+        {% for item in open %}
+        <li class="list-group-item row">
+            {{ ticket(item) }}
+            <a type="button" class="badge" href="{{ url_for('close_ticket', id=item.id) }}">Claim</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Claimed</h2>
+    <ul class="list-group">
+        {% for item in claimed %}
+        <li class="list-group-item row">
+            {{ ticket(item) }}
+            <a type="button" class="badge" href="{{ url_for('close_ticket', id=item.id) }}">Close</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Closed</h2>
+    <ul class="list-group">
+        {% for item in closed %}
+        <li class="list-group-item row">
+            {{ ticket(item) }}
+            <a type="button" class="badge" href="{{ url_for('reopen_ticket', id=item.id) }}">Reopen</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<script>
+let deleteurl = "{{ formurl }}";
+</script>
+<script src="{{ url_for('static', filename='js/safe_delete.js') }}"></script>
+{% block editmeta %}
+{% endblock %}
+{% endblock %}
+
+{% macro input(name, title=None, value='', type='text', required=True) %}
+<div class="formgroup">
+    <label for="{{ name }}">{{ title if title else name.title() }}</label>
+    <input type="{{ type }}" id="{{ name }}" name="{{ name }}" class="form-control" value="{{ value }}" {% for arg in kwargs %} {{ arg }}="{{ kwargs[arg] }}" {% endfor %} {% if required %}required{% endif %}>
+</div>
+{% endmacro %}
+
+{% macro textarea(name, title=None, value='', required=True) %}
+<div class="formgroup">
+    <label for="{{ name }}">{{ title if title else name.title() }}</label>
+    <textarea id="{{ name }}" name="{{ name }}" class="form-control" {% for arg in kwargs %} {{ arg }}="{{ kwargs[arg] }}" {% endfor %} {% if required %}required{% endif %}>{{ value }}</textarea>
+</div>
+{% endmacro %}
+
+{% macro checkbox(name, title=None, value=False) %}
+<div class="formgroup">
+    <input type="checkbox" id="{{ name }}" name="{{ name }}" value="True" {% for arg in kwargs %} {{ arg }}="{{ kwargs[arg] }}" {% endfor %} {% if value %}checked{% endif %}>
+    <label for="{{ name }}">{{ title if title else name.title() }}</label>
+</div>
+{% endmacro %}
+
+{% macro enum(name, options, title=None, value='', required=True) %}
+<div class="formgroup">
+    <label for="{{ name }}">{{ title if title else name.title() }}</label>
+    <select id="{{ name }}" name="{{ name }}" class="form-control" {% if required %}required{% endif %}>
+        <option value="">-</option>
+        {% set dict = options.list() %}
+        {% for item in dict.keys() %}
+        <option value="{{ item }}" {{ 'selected' if value and value == item else '' }}>
+            {{ dict.get(item) }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+{% endmacro %}
+
+{% macro select(name, options, title=None, value='', required=True) %}
+<div class="formgroup">
+    <label for="{{ name }}">{{ title if title else name.title() }}</label>
+    <select id="{{ name }}" name="{{ name }}" class="form-control" {% if required %}required{% endif %}>
+        <option value="">-</option>
+        {% for item in options %}
+        <option value="{{ item.id }}" {{ 'selected' if value and value == item.id else '' }}>
+            {{ item }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+{% endmacro %}
+
+{% block content %}
+<div class="container">
+    <form id="form" action="{{ formurl }}" method="post">
+        {% block form %}
+        {% endblock %}
+        <br>
+        <div class="row">
+            <div class="btn-group-submit col-xs-4 col-sm-3 col-md-2">
+                {% block submit %}
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                <!--
+                {% if obj and user.is_superuser %}
+                <br>
+                <button type="button" id="delete" class="btn btn-danger btn-block">Delete</button>
+                {% endif %}
+                -->
+                {% endblock %}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

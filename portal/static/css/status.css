@@ -1,0 +1,40 @@
+#course-availability {
+    min-width: 100%;
+}
+
+#course-availability thead {
+    background-color: black;
+    color: white;
+}
+
+#course-availability thead th {
+    text-align: center;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+.course-tickets {
+    display: none;
+}
+
+tr.no-tutors {
+    background-color: darkred;
+    color: white;
+}
+
+tr.busy-tutors {
+    background-color: darkorange;
+    color: black;
+}
+
+tr.availabile-tutors {
+    background-color: lawngreen;
+    color: black;
+}
+
+ul.list-group > li:nth-child(odd) {
+    background-color: #eee;
+}

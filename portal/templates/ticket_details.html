@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% set title = 'Ticket #{}'.format(ticket.id) %}
+
+{% block meta %}
+<script src="{{ url_for('static', filename='js/safe_delete.js') }}"></script>
+{% block editmeta %}
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+<div class="content" style="padding: 5px">
+<dl class="row">
+    <dt class="col-xs-2">Time Opened</dt>
+<!--    <dd class="col-xs-10">{{ correct_time(ticket.time_created) }}</dd> -->
+    <dd class="col-xs-10">{{ ticket.time_created }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Name</dt>
+    <dd class="col-xs-10">{{ ticket.student_last_first }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Email</dt>
+    <dd class="col-xs-10">{{ ticket.student_email }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Semester</dt>
+    <dd class="col-xs-10">{{ ticket.section.semester }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Course</dt>
+    <dd class="col-xs-10">{{ ticket.section.course }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Course Section</dt>
+    <dd class="col-xs-10">{{ ticket.section }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Professor</dt>
+    <dd class="col-xs-10">{{ ticket.section.professor }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Assignment</dt>
+    <dd class="col-xs-10">{{ ticket.assignment }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Question</dt>
+    <dd class="col-xs-10">
+        {% for line in ticket.question.split('\n') %}
+        {{ line }}<br>
+        {% endfor %}
+    </dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Problem Type</dt>
+    <dd class="col-xs-10">{{ ticket.problem_type }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Status</dt>
+    <dd class="col-xs-10">{{ ticket.status.name }}</dd>
+    <hr class="col-xs-12">
+    {% if ticket.status == m.Status.Closed %}
+    <dt class="col-xs-2">Time Closed</dt>
+    <dd class="col-xs-10">{{ correct_time(ticket.time_closed) }}</dd>
+    <hr class="col-xs-12">
+    {% endif %}
+    <dt class="col-xs-2">Primary Tutor</dt>
+    <dd class="col-xs-10">{{ ticket.tutor }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Assisting Tutor</dt>
+    <dd class="col-xs-10">{{ ticket.assistant_tutor }}</dd>
+    <hr class="col-xs-12">
+    <dt class="col-xs-2">Was Successful</dt>
+    <dd class="col-xs-10">{{ 'yes' if ticket.was_successful else 'no' }}</dd>
+</dl>
+{% if user.is_superuser %}
+<form id="form" action="{{ url_for('delete_ticket', id=ticket.id) }}" method="get">
+    <div class="row">
+        <div class="btn-group-submit col-xs-4 col-sm-3 col-md-2">
+            <button type="button" id="delete" class="btn btn-danger btn-block">Delete</button>
+        </div>
+    </div>
+</form>
+{% endif %}
+</div>
+{% endblock %}

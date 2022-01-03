@@ -1,0 +1,12 @@
+{% extends "edit.html" %}
+
+{% set title = 'Edit Semester' %}
+{% set formurl = url_for('save_edit_admin', type=type) %}
+
+{% block form %}
+<input type="hidden" id="id" name="id" value="{{ obj.id if obj else '' }}">
+{{ input('year', value=obj.year if obj else '', type='number', min=1980) }}
+{{ enum('season', m.Seasons, value=obj.season if obj else '') }}
+{{ input('start_date', title='Start Date', value=obj.start_date if obj else '', type='date') }}
+{{ input('end_date', title='End Date', value=obj.end_date if obj else '', type='date') }}
+{% endblock %}

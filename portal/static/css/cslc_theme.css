@@ -1,0 +1,67 @@
+body {
+	padding-bottom: 60px;
+}
+
+h1 {
+	color: #D71920;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-variant: small-caps;
+	text-align: center;
+}
+
+textarea {
+	resize: none;
+	height: 6em !important;
+}
+
+.navbar {
+	background-image: none;
+	background-color: #FFFFFF;
+}
+
+.navbar-inverse {
+	background-color: #000000;
+}
+
+.navbar-header {
+	float: none;
+}
+
+.navbar .logo {
+	white-space: normal;
+}
+
+.navbar .logo span {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
+
+#navbar-collapse {
+	background-color: #464446;
+	background-image: url(../images/bg_main-nav.gif);
+	background-position: center bottom;
+	background-repeat: repeat-x;
+}
+
+@media (max-width: 767px) {
+	#navbar-collapse {
+		background-image: none;
+	}
+
+	.navbar-inverse .navbar-nav > .open > a:hover,
+	.navbar-inverse .navbar-nav > .open > a,
+	.navbar-inverse .navbar-nav > .open {
+		background-color: #242224;
+	}
+}
+
+.btn-default {
+	background-color: #BCBBBA;
+	background-image: linear-gradient(to bottom, #DEDDDC, #BCBBBA);
+}
+
+.btn-default:hover {
+	background-color: #BCBBBA;
+}

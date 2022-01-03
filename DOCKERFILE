@@ -1,0 +1,18 @@
+FROM python:3
+
+ENV PYTHONBUFFERED 1
+RUN mkdir /code
+WORKDIR /code
+ADD . /code/
+
+# Install SQL Server
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https apt-utils
+RUN DEBIAN_FRONTEND=noninteractive apt-get install unixodbc unixodbc-dev freetds-dev freetds-bin tdsodbc -y
+
+# Install Python Dependencies
+RUN pip install pipenv
+RUN pipenv install --system --deploy
+
+EXPOSE 8000
+ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:8000", "wsgi"]

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<style>
+.working {
+    padding: 1px 3px;
+    color: white;
+    background-color: black;
+}
+</style>
+{% endblock %}
+
+{% set title = 'Working Tutors' %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ title }}</h1>
+    <ul class="list-group">
+        <a type="button" class="list-group-item" href="{{ url_for('deactivate_tutors') }}">-Clear workers-</a>
+        <form action="{{ url_for('submit_working') }}" method="post">
+            <button type="submit" class="list-group-item">Save</button>
+
+            {% for item in items %}
+            <li class="list-group-item clearfix">
+                <label>
+                    <input type="checkbox" name="{{ item.id }}" {% if item.is_working %}checked{% endif %} />
+                    <span class="name">{{ item }}</span>
+                    {% if item.is_working %}
+                    <span class="working">- currently working</span>
+                    {% endif %}
+                </label>
+            </li>
+            {% endfor %}
+        </form>
+    </ul>
+</div>
+{% endblock %}

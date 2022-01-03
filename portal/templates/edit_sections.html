@@ -1,0 +1,16 @@
+{% extends "edit.html" %}
+
+{% set title = 'Edit Section' %}
+{% set formurl = url_for('save_edit_admin', type=type) %}
+{% set courses = m.Courses.query.order_by(m.Courses.order_by).all() %}
+{% set semesters = m.Semesters.query.order_by(m.Semesters.order_by).all() %}
+{% set professors = m.Professors.query.order_by(m.Professors.order_by).all() %}
+
+{% block form %}
+<input type="hidden" id="id" name="id" value="{{ obj.id if obj else '' }}">
+{{ select('semester_id', semesters, title='Semester', value=obj.semester_id if obj else '') }}
+{{ select('course_id', courses, title='Course', value=obj.course_id if obj else '') }}
+{{ input('number', type='number', value=obj.number if obj else '') }}
+{{ input('time', value=obj.time if obj else '') }}
+{{ select('professor_id', professors, title='Professor', value=obj.professor_id if obj else '', required=False) }}
+{% endblock %}

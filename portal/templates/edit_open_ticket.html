@@ -1,0 +1,52 @@
+{% extends "edit.html" %}
+
+{% set title = 'Open Ticket' %}
+{% set formurl = url_for('save_open_ticket') %}
+
+{% block editmeta %}
+<script src="{{ url_for('static', filename='js/course_picker.js') }}"></script>
+<script src="{{ url_for('static', filename='js/form_validator.js') }}"></script>
+{% endblock %}
+
+{% block form %}
+{{ input('student_email', title='Email', type='email') }}
+{{ input('student_fname', title='First Name') }}
+{{ input('student_lname', title='Last Name') }}
+
+{{ select('course_id', courses, title='Course') }}
+
+<div class="formgroup">
+    <label for="section_id">Section</label>
+    <select id="section_id" name="section_id" class="form-control" required>
+        <option value="">-</option>
+        {% for course in courses %}
+        <optgroup parent="{{ course.id }}" label="{{ course }}">
+            {% for section in course.sections %}
+            <option value="{{ section.id }}">
+                {{ section }}
+            </option>
+            {% endfor %}
+        <optgroup>
+        {% endfor %}
+    </select>
+</div>
+
+{{ input('assignment', title='Assignment Name (eg. "1 - Punch and Run" or "3 - Virtual Computer")', minlength='10') }}
+{{ textarea('question', title='Specific Question (eg. "I can\'t figure out how to print numbers")', minlength='25') }}
+{{ select('problem_type_id', problems, title='Problem Type') }}
+<div class="alert alert-danger form-error hidden" style="margin-top: 2em;">
+    <p>Please enter the highlighted fields.</p>
+    <p>Your assignment name must be at least 10 characters long.</p>
+    <p>Your question must be at least 25 characters long.</p>
+</div>
+{% endblock %}
+
+{% block submit %}
+<button
+    class="g-recaptcha btn btn-primary btn-block"
+    data-sitekey="{{ config['GOOGLE_CAPTCHA_KEY'] }}"
+    data-callback="onSubmit"
+>
+    Submit
+</button>
+{% endblock %}

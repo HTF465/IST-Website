@@ -1,0 +1,40 @@
+#main {
+    text-align: center;
+}
+
+#login {
+    display: inline-block;
+    /* border: 1px solid black; */
+    margin: 1em auto;
+    width: auto;
+    padding: 0.25em;
+}
+
+.error {
+    color: red;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+form {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 1.25em;
+}
+
+input {
+    width: 15em;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 1px 6px;
+}
+
+input[type="submit"] {
+    margin: 0.05em;
+    margin-left: auto;
+    background-color: black;
+    color: white;
+    width: auto;
+    display: block;
+}
